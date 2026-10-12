@@ -1,0 +1,4 @@
+[      -5ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.playwrightautomation.com/infinite-scroll.html:0
+[     192ms] Error: grecaptcha.execute only works with invisible reCAPTCHA.
+    at https://www.gstatic.com/recaptcha/releases/nY0xPItgwtlvjEjk2TqdwOQz/recaptcha__en.js:750:355
+    at onloadCallback (https://www.playwrightautomation.com/infinite-scroll.html:19:24)

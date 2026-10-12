@@ -1,0 +1,3 @@
+[  -29665ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://webdriver.io/_vercel/insights/script.js:0
+[  -29664ms] [ERROR] Refused to execute script from 'https://webdriver.io/_vercel/insights/script.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled. @ https://webdriver.io/:0
+[  -29663ms] [LOG] [Vercel Web Analytics] Failed to load script from /_vercel/insights/script.js. Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information. @ https://webdriver.io/assets/js/main.e5123892.js:37
