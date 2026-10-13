@@ -1,12 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Browser Contexts, Tabs, Windows, and Frames', () => {
-  test('Inspect embedded frames', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Frame Counting' });
+  test('Inspect embedded frames', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.windowsAndFrames.frameCountingHeading;
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
-    await expect(page.locator('iframe').first()).toBeAttached();
-    expect(await page.locator('iframe').count()).toBeGreaterThan(0);
+    await expect(practicePage.windowsAndFrames.iframes.first()).toBeAttached();
+    expect(await practicePage.windowsAndFrames.iframes.count()).toBeGreaterThan(0);
   });
 });

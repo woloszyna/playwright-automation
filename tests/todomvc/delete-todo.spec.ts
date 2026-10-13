@@ -1,24 +1,20 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Delete individual and final todos', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Delete individual and final todos', async ({ todoPage }) => {
+    await todoPage.goto();
     // Add two tasks
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
     for (const title of ['First', 'Second']) {
-      await input.fill(title);
-      await input.press('Enter');
+      await todoPage.addTodo(title);
     }
     // Delete the first task and preserve the second
-    const titles = page.getByTestId('todo-title');
-    await titles.first().hover();
-    await page.getByRole('listitem').filter({ has: titles.first() }).getByRole('button', { name: 'Delete' }).click();
+    const titles = todoPage.titles;
+    await todoPage.deleteFirstTodo();
     await expect(titles).toHaveText(['Second']);
-    await expect(page.locator('.todo-count')).toContainText('1');
+    await expect(todoPage.itemCount).toContainText('1');
     // Delete the final task and verify the empty state
-    await titles.first().hover();
-    await page.getByRole('listitem').filter({ has: titles.first() }).getByRole('button', { name: 'Delete' }).click();
+    await todoPage.deleteFirstTodo();
     await expect(titles).toHaveCount(0);
-    await expect(page.getByRole('link', { name: 'All', exact: true })).toHaveCount(0);
+    await expect(todoPage.allLink).toHaveCount(0);
   });
 });

@@ -1,14 +1,14 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Tables', () => {
-  test('Read static web table values', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Static Web Table' });
+  test('Read static web table values', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.tables.staticWebTableHeading;
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
-    const table = page.getByRole('table').first();
+    const table = practicePage.tables.allTables.first();
     await expect(table).toBeVisible();
-    await expect(table.getByRole('row')).toHaveCount(7);
-    await expect(table.getByRole('row').first()).toBeVisible();
+    await expect(practicePage.tables.staticRows).toHaveCount(7);
+    await expect(practicePage.tables.staticRows.first()).toBeVisible();
   });
 });

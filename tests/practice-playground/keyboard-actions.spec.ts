@@ -1,9 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Dialogs & Interactions', () => {
-  test('Type into the keyboard interaction field', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const input = page.getByPlaceholder('Type character by character…');
+  test('Type into the keyboard interaction field', async ({ practicePage }) => {
+    await practicePage.goto();
+    const input = practicePage.interactions.typeCharacterByCharacter;
     await input.fill('Keyboard test');
     await expect(input).toHaveValue('Keyboard test');
     await input.clear();

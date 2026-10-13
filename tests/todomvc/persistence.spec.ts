@@ -1,20 +1,17 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Persist todos across reloads', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Persist todos across reloads', async ({ page, todoPage }) => {
+    await todoPage.goto();
     // Create tasks in distinct completion states
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Persist active');
-    await input.press('Enter');
-    await input.fill('Persist completed');
-    await input.press('Enter');
-    await page.getByRole('listitem').filter({ hasText: 'Persist completed' }).getByRole('checkbox', { name: 'Toggle Todo' }).check();
+    await todoPage.addTodo('Persist active');
+    await todoPage.addTodo('Persist completed');
+    await todoPage.todoToggle('Persist completed').check();
     // Reload and verify the task data and state survived
     await page.reload();
-    await expect(page.getByTestId('todo-title')).toHaveText(['Persist active', 'Persist completed']);
-    await expect(page.getByRole('listitem').filter({ hasText: 'Persist active' }).getByRole('checkbox', { name: 'Toggle Todo' })).not.toBeChecked();
-    await expect(page.getByRole('listitem').filter({ hasText: 'Persist completed' }).getByRole('checkbox', { name: 'Toggle Todo' })).toBeChecked();
-    await expect(page.locator('.todo-count')).toHaveText('1 item left');
+    await expect(todoPage.titles).toHaveText(['Persist active', 'Persist completed']);
+    await expect(todoPage.todoToggle('Persist active')).not.toBeChecked();
+    await expect(todoPage.todoToggle('Persist completed')).toBeChecked();
+    await expect(todoPage.itemCount).toHaveText('1 item left');
   });
 });

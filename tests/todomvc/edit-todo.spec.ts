@@ -1,20 +1,18 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Edit a todo and save with Enter', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Edit a todo and save with Enter', async ({ todoPage }) => {
+    await todoPage.goto();
     // Create a task and open inline editing
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Prepare draft');
-    await input.press('Enter');
-    await page.getByTestId('todo-title').dblclick();
+    await todoPage.addTodo('Prepare draft');
+    await todoPage.startEditing();
     // Replace the title and commit with Enter
-    const editor = page.getByRole('textbox', { name: 'Edit' });
+    const editor = todoPage.editInput;
     await expect(editor).toHaveValue('Prepare draft');
     await editor.fill('Prepare final draft');
     await editor.press('Enter');
-    await expect(page.getByTestId('todo-title')).toHaveText('Prepare final draft');
-    await expect(page.getByRole('textbox', { name: 'Edit' })).toHaveCount(0);
-    await expect(page.locator('.todo-count')).toContainText('1');
+    await expect(todoPage.titles).toHaveText('Prepare final draft');
+    await expect(todoPage.editInput).toHaveCount(0);
+    await expect(todoPage.itemCount).toContainText('1');
   });
 });

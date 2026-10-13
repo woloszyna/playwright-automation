@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Form Controls', () => {
-  test('Operate toggle switches independently', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const notifications = page.getByLabel('Enable Notifications', { exact: true });
-    const emailAlerts = page.getByLabel('Email Alerts', { exact: true });
-    const autoSave = page.getByLabel('Auto Save', { exact: true });
+  test('Operate toggle switches independently', async ({ practicePage }) => {
+    await practicePage.goto();
+    const notifications = practicePage.formControls.enableNotifications;
+    const emailAlerts = practicePage.formControls.emailAlerts;
+    const autoSave = practicePage.formControls.autoSave;
     await notifications.check();
     await expect(notifications).toBeChecked();
     await expect(emailAlerts).toBeChecked();

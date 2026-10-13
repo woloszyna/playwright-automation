@@ -1,13 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Calendars and Date Pickers', () => {
-  test('Inspect enterprise date fields', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Enterprise Date Inputs' });
+  test('Inspect enterprise date fields', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.calendars.enterpriseDateInputsHeading;
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
-    const section = page.locator('section').filter({ has: heading }).first();
+    const section = practicePage.calendars.enterpriseSection;
     await expect(section).toBeVisible();
-    expect(await section.locator('input').count()).toBeGreaterThan(0);
+    expect(await practicePage.calendars.enterpriseInputs.count()).toBeGreaterThan(0);
   });
 });

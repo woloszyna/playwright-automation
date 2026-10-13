@@ -1,23 +1,20 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Navigate filters with browser history', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Navigate filters with browser history', async ({ page, todoPage }) => {
+    await todoPage.goto();
     // Create mixed task states
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Active task');
-    await input.press('Enter');
-    await input.fill('Completed task');
-    await input.press('Enter');
-    await page.getByRole('listitem').filter({ hasText: 'Completed task' }).getByRole('checkbox', { name: 'Toggle Todo' }).check();
+    await todoPage.addTodo('Active task');
+    await todoPage.addTodo('Completed task');
+    await todoPage.todoToggle('Completed task').check();
     // Visit routes and navigate back and forward
-    await page.getByRole('link', { name: 'Active', exact: true }).click();
-    await page.getByRole('link', { name: 'Completed', exact: true }).click();
+    await todoPage.filterBy('Active');
+    await todoPage.filterBy('Completed');
     await page.goBack();
     await expect(page).toHaveURL(/#\/active$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['Active task']);
+    await expect(todoPage.titles).toHaveText(['Active task']);
     await page.goForward();
     await expect(page).toHaveURL(/#\/completed$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['Completed task']);
+    await expect(todoPage.titles).toHaveText(['Completed task']);
   });
 });

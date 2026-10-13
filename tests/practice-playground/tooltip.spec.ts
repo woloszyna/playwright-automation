@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Form Controls', () => {
-  test('Reveal the delivery estimate tooltip', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const trigger = page.getByRole('button', { name: 'Delivery estimate' });
+  test('Reveal the delivery estimate tooltip', async ({ practicePage }) => {
+    await practicePage.goto();
+    const trigger = practicePage.formControls.deliveryEstimateButton;
     await trigger.hover();
     await expect(trigger).toBeVisible();
-    await expect(page.getByText(/delivery estimate/i).first()).toBeVisible();
+    await expect(practicePage.formControls.deliveryEstimateText.first()).toBeVisible();
   });
 });

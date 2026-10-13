@@ -1,13 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Dropdowns', () => {
-  test('Select country and sorted animal options', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const country = page.getByLabel('Select Country', { exact: true });
+  test('Select country and sorted animal options', async ({ practicePage }) => {
+    await practicePage.goto();
+    const country = practicePage.dropdowns.selectCountry;
     await country.selectOption({ label: 'Canada' });
     await expect(country).toHaveValue(/.+/);
-    const animals = page.getByLabel('Sorted Animals', { exact: true });
-    await expect(animals.locator('option')).toHaveText(['Cat','Cheetah','Deer','Dog','Elephant','Fox','Giraffe','Lion','Rabbit','Zebra']);
+    const animals = practicePage.dropdowns.sortedAnimals;
+    await expect(practicePage.dropdowns.animalOptions).toHaveText(['Cat','Cheetah','Deer','Dog','Elephant','Fox','Giraffe','Lion','Rabbit','Zebra']);
     await animals.selectOption({ label: 'Fox' });
     await expect(animals).toHaveValue(/.+/);
   });

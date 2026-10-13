@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Calendars and Date Pickers', () => {
-  test('Choose month and year for a dropdown datepicker', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Dropdown-Based Datepicker' });
+  test('Choose month and year for a dropdown datepicker', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.calendars.dropdownBasedDatepickerHeading;
     await heading.scrollIntoViewIfNeeded();
-    const selects = page.locator('select');
+    const selects = practicePage.calendars.selects;
     const month = selects.nth(await selects.count() - 2);
     const year = selects.nth(await selects.count() - 1);
     await expect(month).toBeVisible();

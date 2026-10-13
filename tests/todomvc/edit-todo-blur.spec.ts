@@ -1,18 +1,17 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Commit an edit when focus leaves the editor', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Commit an edit when focus leaves the editor', async ({ todoPage }) => {
+    await todoPage.goto();
     // Create a task and enter edit mode
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Review code');
-    await input.press('Enter');
-    await page.getByTestId('todo-title').dblclick();
+    const input = todoPage.newTodoInput;
+    await todoPage.addTodo('Review code');
+    await todoPage.startEditing();
     // Change the title and move focus outside the editor
-    const editor = page.getByRole('textbox', { name: 'Edit' });
+    const editor = todoPage.editInput;
     await editor.fill('Review pull request');
     await input.click();
-    await expect(page.getByTestId('todo-title')).toHaveText('Review pull request');
-    await expect(page.getByRole('textbox', { name: 'Edit' })).toHaveCount(0);
+    await expect(todoPage.titles).toHaveText('Review pull request');
+    await expect(todoPage.editInput).toHaveCount(0);
   });
 });

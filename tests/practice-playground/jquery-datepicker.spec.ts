@@ -1,19 +1,19 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Calendars and Date Pickers', () => {
-  test('Navigate the jQuery UI datepicker and clear selection', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'jQuery UI Datepicker' });
+  test('Navigate the jQuery UI datepicker and clear selection', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.calendars.jqueryUIDatepickerHeading;
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
-    const input = page.getByTestId('dp-arrow-input');
+    const input = practicePage.calendars.input;
     await input.click();
-    const next = page.getByTestId('dp-arrow-next');
+    const next = practicePage.calendars.next;
     await next.click();
-    await page.getByTestId('dp-arrow-today').click();
+    await practicePage.calendars.today.click();
     await expect(input).not.toHaveValue('');
     await input.click();
-    await page.getByTestId('dp-arrow-clear').click();
+    await practicePage.calendars.clear.click();
     await expect(input).toHaveValue('');
   });
 });

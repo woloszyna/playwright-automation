@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Browser Contexts, Tabs, Windows, and Frames', () => {
-  test('Render payment gateway iframe', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Payment Gateway Frame' });
+  test('Render payment gateway iframe', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.windowsAndFrames.paymentGatewayFrameHeading;
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
-    expect(await page.locator('iframe').count()).toBeGreaterThan(0);
+    expect(await practicePage.windowsAndFrames.iframes.count()).toBeGreaterThan(0);
   });
 });

@@ -1,9 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Dialogs & Interactions', () => {
-  test('Perform the right-click mouse action', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const target = page.getByRole('button', { name: 'Right Click Me', exact: true });
+  test('Perform the right-click mouse action', async ({ practicePage }) => {
+    await practicePage.goto();
+    const target = practicePage.interactions.rightClickMeButton;
     await target.scrollIntoViewIfNeeded();
     await expect(target).toBeVisible();
     await target.click({ button: 'right' });

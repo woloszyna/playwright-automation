@@ -1,12 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Tables', () => {
-  test('Choose distinct flight departure and destination cities', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const heading = page.getByRole('heading', { name: 'Table Assignment — Flight Booking Portal' });
+  test('Choose distinct flight departure and destination cities', async ({ practicePage }) => {
+    await practicePage.goto();
+    const heading = practicePage.tables.tableAssignmentFlightBookingPortalHeading;
     await heading.scrollIntoViewIfNeeded();
-    const departure = page.getByLabel('Departure', { exact: true });
-    const destination = page.getByLabel('Destination', { exact: true });
+    const departure = practicePage.tables.departure;
+    const destination = practicePage.tables.destination;
     await departure.selectOption({ label: 'New York' });
     await destination.selectOption({ label: 'London' });
     await expect(departure).toHaveValue(/.+/);

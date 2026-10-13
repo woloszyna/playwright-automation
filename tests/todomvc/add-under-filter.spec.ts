@@ -1,22 +1,19 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Add a task while a filter is active', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Add a task while a filter is active', async ({ page, todoPage }) => {
+    await todoPage.goto();
     // Add and complete an existing task, then filter to Active
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Already completed');
-    await input.press('Enter');
-    await page.getByRole('listitem').filter({ hasText: 'Already completed' }).getByRole('checkbox', { name: 'Toggle Todo' }).check();
-    await page.getByRole('link', { name: 'Active', exact: true }).click();
-    await expect(page.getByTestId('todo-title')).toHaveCount(0);
+    await todoPage.addTodo('Already completed');
+    await todoPage.todoToggle('Already completed').check();
+    await todoPage.filterBy('Active');
+    await expect(todoPage.titles).toHaveCount(0);
     // Add an active task while the Active filter is selected
-    await input.fill('New active task');
-    await input.press('Enter');
+    await todoPage.addTodo('New active task');
     await expect(page).toHaveURL(/#\/active$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['New active task']);
-    await expect(page.locator('.todo-count')).toHaveText('1 item left');
-    await page.getByRole('link', { name: 'Completed', exact: true }).click();
-    await expect(page.getByTestId('todo-title')).toHaveText(['Already completed']);
+    await expect(todoPage.titles).toHaveText(['New active task']);
+    await expect(todoPage.itemCount).toHaveText('1 item left');
+    await todoPage.filterBy('Completed');
+    await expect(todoPage.titles).toHaveText(['Already completed']);
   });
 });

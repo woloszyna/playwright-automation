@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Form Controls', () => {
-  test('Validate required and malformed text input values', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const name = page.getByLabel('Name', { exact: true });
-    const email = page.getByLabel('Email', { exact: true });
-    await page.getByRole('button', { name: 'Submit', exact: true }).first().click();
+  test('Validate required and malformed text input values', async ({ practicePage }) => {
+    await practicePage.goto();
+    const name = practicePage.formControls.nameInput;
+    const email = practicePage.formControls.emailInput;
+    await practicePage.formControls.submitContactForm();
     await expect(name).toBeVisible();
     await email.fill('not-an-email');
     await expect(email).toHaveAttribute('type', 'email');

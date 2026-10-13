@@ -1,18 +1,16 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Cancel an edit with Escape', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Cancel an edit with Escape', async ({ todoPage }) => {
+    await todoPage.goto();
     // Create a task and start editing it
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
-    await input.fill('Keep original');
-    await input.press('Enter');
-    await page.getByTestId('todo-title').dblclick();
+    await todoPage.addTodo('Keep original');
+    await todoPage.startEditing();
     // Change the draft and cancel the edit
-    const editor = page.getByRole('textbox', { name: 'Edit' });
+    const editor = todoPage.editInput;
     await editor.fill('Temporary value');
     await editor.press('Escape');
-    await expect(page.getByTestId('todo-title')).toHaveText('Keep original');
-    await expect(page.getByRole('textbox', { name: 'Edit' })).toHaveCount(0);
+    await expect(todoPage.titles).toHaveText('Keep original');
+    await expect(todoPage.editInput).toHaveCount(0);
   });
 });

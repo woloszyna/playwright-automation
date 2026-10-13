@@ -1,13 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Browser Contexts, Tabs, Windows, and Frames', () => {
-  test('Open the login window', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
+  test('Open the login window', async ({ page, practicePage }) => {
+    await practicePage.goto();
     const popupPromise = page.waitForEvent('popup');
-    await page.getByRole('button', { name: 'Open Login Window' }).click();
+    await practicePage.windowsAndFrames.openLoginWindowButton.click();
     const popup = await popupPromise;
     await expect(page).toHaveURL(/practice\.html/);
-    await expect(page.getByTestId('btn-open-login-window')).toBeVisible();
+    await expect(practicePage.windowsAndFrames.openLoginWindow).toBeVisible();
     expect(popup.isClosed()).toBe(false);
     await popup.close();
   });

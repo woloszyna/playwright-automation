@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Browser Contexts, Tabs, Windows, and Frames', () => {
-  test('Load the complaint form in its frame', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const frame = page.locator('#frame-support');
+  test('Load the complaint form in its frame', async ({ practicePage }) => {
+    await practicePage.goto();
+    const frame = practicePage.windowsAndFrames.frameSupport;
     await expect(frame).toBeHidden();
-    await page.getByTestId('btn-load-support').click();
+    await practicePage.windowsAndFrames.loadSupport.click();
     await expect(frame).toBeVisible();
   });
 });

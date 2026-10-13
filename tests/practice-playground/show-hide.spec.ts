@@ -1,13 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Form Controls', () => {
-  test('Show and hide the target field', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const target = page.getByLabel('Target field', { exact: true });
+  test('Show and hide the target field', async ({ practicePage }) => {
+    await practicePage.goto();
+    const target = practicePage.formControls.targetField;
     await expect(target).toBeVisible();
-    await page.getByRole('button', { name: 'Hide Element' }).click();
+    await practicePage.formControls.hideTargetField();
     await expect(target).toBeHidden();
-    await page.getByRole('button', { name: 'Show Element' }).click();
+    await practicePage.formControls.showTargetField();
     await expect(target).toBeVisible();
   });
 });

@@ -1,26 +1,24 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('TodoMVC Functional Test Plan', () => {
-  test('Filter tasks by All, Active, and Completed', async ({ page }) => {
-    await page.goto('https://demo.playwright.dev/todomvc/#/');
+  test('Filter tasks by All, Active, and Completed', async ({ page, todoPage }) => {
+    await todoPage.goto();
     // Create a mixed list
-    const input = page.getByRole('textbox', { name: 'What needs to be done?' });
     for (const title of ['Active one', 'Completed one', 'Active two']) {
-      await input.fill(title);
-      await input.press('Enter');
+      await todoPage.addTodo(title);
     }
-    await page.getByRole('listitem').filter({ hasText: 'Completed one' }).getByRole('checkbox', { name: 'Toggle Todo' }).check();
+    await todoPage.todoToggle('Completed one').check();
     // Verify Active and Completed filters
-    await page.getByRole('link', { name: 'Active', exact: true }).click();
+    await todoPage.filterBy('Active');
     await expect(page).toHaveURL(/#\/active$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['Active one', 'Active two']);
-    await page.getByRole('link', { name: 'Completed', exact: true }).click();
+    await expect(todoPage.titles).toHaveText(['Active one', 'Active two']);
+    await todoPage.filterBy('Completed');
     await expect(page).toHaveURL(/#\/completed$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['Completed one']);
+    await expect(todoPage.titles).toHaveText(['Completed one']);
     // Verify All restores the complete list
-    await page.getByRole('link', { name: 'All', exact: true }).click();
+    await todoPage.filterBy('All');
     await expect(page).toHaveURL(/#\/$/);
-    await expect(page.getByTestId('todo-title')).toHaveText(['Active one', 'Completed one', 'Active two']);
-    await expect(page.locator('.todo-count')).toHaveText('2 items left');
+    await expect(todoPage.titles).toHaveText(['Active one', 'Completed one', 'Active two']);
+    await expect(todoPage.itemCount).toHaveText('2 items left');
   });
 });

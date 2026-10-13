@@ -1,9 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../fixtures/test';
 
 test.describe('Advanced UI Elements and linked labs', () => {
-  test('Open a linked lab and return to Practice Playground', async ({ page }) => {
-    await page.goto('https://www.playwrightautomation.com/practice.html');
-    const link = page.getByTestId('btn-open-auth-state-lab');
+  test('Open a linked lab and return to Practice Playground', async ({ page, practicePage }) => {
+    await practicePage.goto();
+    const link = practicePage.advanced.openAuthStateLab;
     await link.scrollIntoViewIfNeeded();
     const destination = await link.getAttribute('href');
     expect(destination).toBeTruthy();

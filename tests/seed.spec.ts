@@ -1,5 +1,5 @@
-import { test } from '@playwright/test';
+import { test } from '../fixtures/test';
 
-test('seed', async ({ page }) => {
-  await page.goto('https://www.playwrightautomation.com/practice.html');
+test('seed', async ({ practicePage }) => {
+  await practicePage.goto();
 });
